@@ -3,6 +3,7 @@ import requests
 import openrouteservice
 import networkx as nx
 import matplotlib.pyplot as plt
+import random
 
 # API Keys
 ORS_API_KEY = "5b3ce3597851110001cf6248dbc0d825bf6d4b69b125fac5de442cbf"
@@ -100,9 +101,10 @@ if st.button("🔍 Get Directions"):
             route_edges = [((route[i][1], route[i][0]), (route[i + 1][1], route[i + 1][0])) for i in range(len(route) - 1)]
             nx.draw_networkx_edges(G, pos, edgelist=route_edges, edge_color='green', width=4)  # Shortest route in green
             
-            # Add labels for the cities
-            for i in range(len(route)):
-                city_name = f"Waypoint {i+1}"
+            # Select 5 random waypoints to display
+            waypoint_indices = random.sample(range(1, len(route) - 1), min(5, len(route) - 2))  # Avoid first and last point
+            for i in waypoint_indices:
+                city_name = f"Waypoint {i}"
                 plt.text(route[i][1], route[i][0], city_name, fontsize=9, ha='right', color='black')
 
             plt.title("Route to Destination")
@@ -125,4 +127,5 @@ if st.button("🔍 Get Directions"):
             st.error("No directions found. Please check the locations.")
     else:
         st.error("Please enter both starting and destination locations.")
+
 

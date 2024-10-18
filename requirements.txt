@@ -3,3 +3,6 @@ openrouteservice
 requests
 networkx
 matplotlib
+scipy
+pyttsx3
+speechrecognition

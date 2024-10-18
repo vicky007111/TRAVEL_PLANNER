@@ -87,23 +87,11 @@ if st.button("🔍 Get Directions"):
 
             # Plot the graph representing the route
             G = nx.Graph()
-
-            # Create edges from the route data
             for i in range(len(route) - 1):
                 G.add_edge((route[i][1], route[i][0]), (route[i + 1][1], route[i + 1][0]))
 
-            # Define positions for nodes using a layout (spring layout)
-            pos = nx.spring_layout(G)
-
-            # Plotting the graph
-            plt.figure(figsize=(12, 8))
-            nx.draw_networkx_nodes(G, pos, node_size=50, node_color='lightcoral', alpha=0.8, edgecolors='black')
-            nx.draw_networkx_edges(G, pos, width=2, alpha=0.6, edge_color='darkblue')
-            nx.draw_networkx_labels(G, pos, font_size=8, font_color='white')
-
-            # Set the title and display settings
-            plt.title("Route Graph", fontsize=18, fontweight='bold')
-            plt.axis('off')  # Hide the axes for a cleaner look
+            plt.figure(figsize=(8, 6))
+            nx.draw(G, with_labels=False, node_size=10, node_color='red', edge_color='blue')
             st.pyplot(plt)
 
             # Display real-time weather for start and destination

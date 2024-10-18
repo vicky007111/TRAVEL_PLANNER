@@ -67,6 +67,15 @@ def get_directions(start_point, end_point):
         st.error(f"Error getting directions: {e}")
         return None
 
+# Function to get the city name from coordinates
+def get_city_name(coords):
+    try:
+        result = client.reverse_geocode(coords)
+        return result['features'][0]['properties']['label']
+    except Exception as e:
+        st.error(f"Error getting city name: {e}")
+        return None
+
 # Streamlit UI
 st.title("🌍 Advanced Travel Planner with Real-Time Maps")
 
@@ -104,8 +113,9 @@ if st.button("🔍 Get Directions"):
             # Select 5 random waypoints to display
             waypoint_indices = random.sample(range(1, len(route) - 1), min(5, len(route) - 2))  # Avoid first and last point
             for i in waypoint_indices:
-                city_name = f"Waypoint {i}"
-                plt.text(route[i][1], route[i][0], city_name, fontsize=9, ha='right', color='black')
+                city_name = get_city_name((route[i][1], route[i][0]))  # Get the city name for the waypoint
+                if city_name:
+                    plt.text(route[i][1], route[i][0], city_name, fontsize=9, ha='right', color='black')
 
             plt.title("Route to Destination")
             st.pyplot(plt)
@@ -127,5 +137,4 @@ if st.button("🔍 Get Directions"):
             st.error("No directions found. Please check the locations.")
     else:
         st.error("Please enter both starting and destination locations.")
-
 

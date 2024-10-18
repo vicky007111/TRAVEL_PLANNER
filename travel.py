@@ -90,8 +90,18 @@ if st.button("🔍 Get Directions"):
             for i in range(len(route) - 1):
                 G.add_edge((route[i][1], route[i][0]), (route[i + 1][1], route[i + 1][0]))
 
+            # Highlight the route
             plt.figure(figsize=(8, 6))
-            nx.draw(G, with_labels=False, node_size=10, node_color='red', edge_color='blue')
+            pos = {node: (node[0], node[1]) for node in G.nodes()}  # Set positions based on coordinates
+            nx.draw_networkx_nodes(G, pos, node_size=10, node_color='red')
+            nx.draw_networkx_edges(G, pos, edge_color='blue', alpha=0.5)
+            nx.draw_networkx_edges(G, pos, edgelist=G.edges(), edge_color='orange', width=2)  # Highlighted edges
+            
+            # Draw the route specifically
+            route_edges = [(route[i], route[i + 1]) for i in range(len(route) - 1)]
+            nx.draw_networkx_edges(G, pos, edgelist=route_edges, edge_color='green', width=4)  # Shortest route in green
+            
+            plt.title("Route to Destination")
             st.pyplot(plt)
 
             # Display real-time weather for start and destination

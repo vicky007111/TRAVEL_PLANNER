@@ -71,7 +71,11 @@ def get_directions(start_point, end_point):
 def get_city_name(coords):
     try:
         result = client.pelias_search(f"{coords[1]}, {coords[0]}")  # Note the order of latitude and longitude
-        return result['features'][0]['properties']['label']
+        if result['features']:  # Check if there are features returned
+            return result['features'][0]['properties']['label']
+        else:
+            st.error("No features found for the coordinates.")
+            return None
     except Exception as e:
         st.error(f"Error getting city name: {e}")
         return None
@@ -137,5 +141,3 @@ if st.button("🔍 Get Directions"):
             st.error("No directions found. Please check the locations.")
     else:
         st.error("Please enter both starting and destination locations.")
-
-

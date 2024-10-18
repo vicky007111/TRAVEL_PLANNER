@@ -70,7 +70,7 @@ def get_directions(start_point, end_point):
 # Function to get the city name from coordinates
 def get_city_name(coords):
     try:
-        result = client.reverse_geocode(coords)
+        result = client.pelias_search(f"{coords[1]}, {coords[0]}")  # Note the order of latitude and longitude
         return result['features'][0]['properties']['label']
     except Exception as e:
         st.error(f"Error getting city name: {e}")
@@ -137,4 +137,5 @@ if st.button("🔍 Get Directions"):
             st.error("No directions found. Please check the locations.")
     else:
         st.error("Please enter both starting and destination locations.")
+
 

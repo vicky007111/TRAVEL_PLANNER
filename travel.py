@@ -91,7 +91,7 @@ if st.button("🔍 Get Directions"):
                 G.add_edge((route[i][1], route[i][0]), (route[i + 1][1], route[i + 1][0]))
 
             # Highlight the route
-            plt.figure(figsize=(8, 6))
+            plt.figure(figsize=(10, 8))
             pos = {node: (node[0], node[1]) for node in G.nodes()}  # Set positions based on coordinates
             nx.draw_networkx_nodes(G, pos, node_size=10, node_color='red')
             nx.draw_networkx_edges(G, pos, edge_color='blue', alpha=0.5)
@@ -100,6 +100,11 @@ if st.button("🔍 Get Directions"):
             route_edges = [((route[i][1], route[i][0]), (route[i + 1][1], route[i + 1][0])) for i in range(len(route) - 1)]
             nx.draw_networkx_edges(G, pos, edgelist=route_edges, edge_color='green', width=4)  # Shortest route in green
             
+            # Add labels for the cities
+            for i in range(len(route)):
+                city_name = f"Waypoint {i+1}"
+                plt.text(route[i][1], route[i][0], city_name, fontsize=9, ha='right', color='black')
+
             plt.title("Route to Destination")
             st.pyplot(plt)
 
@@ -120,3 +125,4 @@ if st.button("🔍 Get Directions"):
             st.error("No directions found. Please check the locations.")
     else:
         st.error("Please enter both starting and destination locations.")
+

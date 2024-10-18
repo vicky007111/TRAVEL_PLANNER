@@ -1,6 +1,5 @@
 streamlit
+openrouteservice
 requests
-pyttsx3
-SpeechRecognition
 networkx
 matplotlib
